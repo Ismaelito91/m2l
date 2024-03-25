@@ -4,7 +4,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const dotenv = require("dotenv");
-const csrf = require('csurf');
+// const csrf = require('csurf');
 
 // Configuration des variables d'environnement
 dotenv.config();
@@ -39,13 +39,13 @@ function isAdmin(req, res, next) {
 }
 
 // Appliquer la protection CSRF à toutes les routes sauf celles spécifiquement exclues
-const csrfProtection = csrf({ httpOnly: true });
-app.use(csrfProtection);
+// const csrfProtection = csrf({ httpOnly: true });
+// app.use(csrfProtection);
 
-app.use((req, res, next) => {
-  res.cookie('XSRF-TOKEN', req.csrfToken())
-  next()
-})
+// app.use((req, res, next) => {
+//   res.cookie('XSRF-TOKEN', req.csrfToken())
+//   next()
+// })
 
 // Middleware pour vérifier la connexion à la base de données
 pool.getConnection((err, connection) => {
@@ -63,7 +63,7 @@ app.get("/authent", (req, res) => {
 });
 
 // Route pour récupérer les informations de l'utilisateur actuellement connecté
-app.get("/api/user", csrfProtection, (req, res) => {
+app.get("/api/user", (req, res) => {
   // Vérifier si un utilisateur est connecté en utilisant la session
   if (req.session.user) {
     res.send({ success: true, user: req.session.user });
@@ -73,7 +73,7 @@ app.get("/api/user", csrfProtection, (req, res) => {
 });
 
 // Route pour mettre à jour les informations de l'utilisateur
-app.post("/api/user", csrfProtection, (req, res) => {
+app.post("/api/user", (req, res) => {
   // Vérifier si un utilisateur est connecté
   if (!req.session.user) {
     // Si l'utilisateur n'est pas connecté, renvoyer une réponse indiquant qu'il n'est pas connecté
@@ -113,7 +113,7 @@ app.post("/api/user", csrfProtection, (req, res) => {
 });
 
 // Route pour mettre à jour le mot de passe de l'utilisateur
-app.post("/api/password", csrfProtection, (req, res) => {
+app.post("/api/password", (req, res) => {
   // Vérifier si un utilisateur est connecté
   if (!req.session.user) {
     return res.status(403).json({ success: false, message: "Non connecté", csrfToken: req.csrfToken() });
@@ -175,7 +175,7 @@ app.post("/api/password", csrfProtection, (req, res) => {
 });
 
 // Route pour passer une commande
-app.post("/api/commande", csrfProtection, (req, res) => {
+app.post("/api/commande", (req, res) => {
   // Vérifier si un utilisateur est connecté
   if (!req.session.user) {
     return res.status(403).json({ success: false, message: "Non connecté", csrfToken: req.csrfToken() });
@@ -207,7 +207,7 @@ app.post("/api/commande", csrfProtection, (req, res) => {
 });
 
 // Route pour récupérer les commandes de l'utilisateur
-app.get("/api/commandes", csrfProtection, (req, res) => {
+app.get("/api/commandes", (req, res) => {
   // Vérifier si un utilisateur est connecté
   if (!req.session.user) {
     res.send({ success: false, message: "Non connecté" });
@@ -265,7 +265,7 @@ app.get('/api/articles', (req, res) => {
 });
 
 // Route pour récupérer les produits
-app.get("/api/produits", csrfProtection, (req, res) => {
+app.get("/api/produits",  (req, res) => {
   // Récupérer les produits depuis la base de données (limité à 20)
   pool.query("SELECT * FROM stock", (err, rows) => {
     if (err) {
@@ -277,7 +277,7 @@ app.get("/api/produits", csrfProtection, (req, res) => {
 });
 
 // Route pour supprimer un produit
-app.delete("/api/produits/:id", csrfProtection, (req, res) => {
+app.delete("/api/produits/:id", (req, res) => {
   const id = req.params.id;
   // Supprimer le produit correspondant à l'ID spécifié de la base de données
   pool.query("DELETE FROM produits WHERE id = ?", [id], (err, rows) => {
@@ -290,7 +290,7 @@ app.delete("/api/produits/:id", csrfProtection, (req, res) => {
 });
 
 // Route pour ajouter un produit
-app.post("/api/produits", csrfProtection, (req, res) => {
+app.post("/api/produits", (req, res) => {
   const nom = req.body.nom;
   const quantite = req.body.quantite;
   const prix = req.body.prix;
@@ -327,8 +327,7 @@ app.get("/api/annonces", (req, res) => {
 });
 
 // Route pour la connexion d'un utilisateur
-app.post("/api/login",csrfProtection,
-(req, res) => {
+app.post("/api/login",(req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -469,7 +468,7 @@ app.post("/api/register", (req, res) => {
 });
 
 // Route pour ajouter un produit (accessible uniquement par l'admin)
-app.post("/api/admin/produits", csrfProtection, isAdmin, (req, res) => {
+app.post("/api/admin/produits", isAdmin, (req, res) => {
   const { nom, quantite, prix, description } = req.body;
   const id = uuid.v4();
   // Insérer le nouveau produit dans la base de données
@@ -487,7 +486,7 @@ app.post("/api/admin/produits", csrfProtection, isAdmin, (req, res) => {
 });
 
 // Route pour supprimer un produit (accessible uniquement par l'admin)
-app.delete("/api/admin/produits/:id", csrfProtection, isAdmin, (req, res) => {
+app.delete("/api/admin/produits/:id", isAdmin, (req, res) => {
   const id = req.params.id;
   // Supprimer le produit correspondant à l'ID spécifié de la base de données
   pool.query("DELETE FROM stock WHERE id = ?", [id], (err, rows) => {
@@ -500,7 +499,7 @@ app.delete("/api/admin/produits/:id", csrfProtection, isAdmin, (req, res) => {
 });
 
 // Route pour mettre à jour un produit (accessible uniquement par l'admin)
-app.put("/api/admin/produits/:id", csrfProtection, isAdmin, (req, res) => {
+app.put("/api/admin/produits/:id", isAdmin, (req, res) => {
   const id = req.params.id;
   const { nom, quantite, prix, description } = req.body;
   // Mettre à jour le produit correspondant à l'ID spécifié dans la base de données
@@ -518,7 +517,7 @@ app.put("/api/admin/produits/:id", csrfProtection, isAdmin, (req, res) => {
 });
 
 // Route pour supprimer un utilisateur (accessible uniquement par l'admin)
-app.delete("/api/admin/users/:id", csrfProtection, isAdmin, (req, res) => {
+app.delete("/api/admin/users/:id", isAdmin, (req, res) => {
   const id = req.params.id;
   // Supprimer l'utilisateur correspondant à l'ID spécifié de la base de données
   pool.query("DELETE FROM utilisateur WHERE id = ?", [id], (err, rows) => {
@@ -531,7 +530,7 @@ app.delete("/api/admin/users/:id", csrfProtection, isAdmin, (req, res) => {
 });
 
 // Route pour ajouter un nouvel administrateur (accessible uniquement par l'admin)
-app.post("/api/admin/register", csrfProtection, isAdmin, (req, res) => {
+app.post("/api/admin/register", isAdmin, (req, res) => {
   const { nom, prenom, email, password, confirm } = req.body;
 
   // Vérifier si tous les champs requis sont fournis
