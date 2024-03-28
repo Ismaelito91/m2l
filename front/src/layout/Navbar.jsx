@@ -71,7 +71,7 @@ function Navbar(props) {
 
   return (
     <>
-     <Modal title="Connexion" show={openLogin} onClose={() => setOpenLogin(false)}>
+      <Modal title="Connexion" show={openLogin} onClose={() => setOpenLogin(false)}>
         <form onSubmit={handleLogin}>
           <input type="email" placeholder="Email" className="form-control" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <input type="password" placeholder="Mot de passe" className="form-control" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -147,3 +147,5 @@ function Navbar(props) {
     </>
   );
 }
+
+export default Navbar;
