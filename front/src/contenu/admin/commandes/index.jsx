@@ -8,11 +8,11 @@ export default function Commandes({ user }) {
 
     if(!user) return <Navigate to = "/" />
 
-    if (Array.isArray(user) && user[0]?.fonction == 'joueur') {
+    if (Array.isArray(user) && user[0]?.fonction == 'utilsateur') {
       return <Navigate to="/" />;
     }
     
-    if (user?.fonction == 'joueur') {
+    if (user?.fonction == 'utilisateur') {
       return <Navigate to="/" />;
     }
 

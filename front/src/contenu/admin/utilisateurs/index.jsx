@@ -80,8 +80,8 @@ export default function Utilisateurs({ user }) {
     },
     {
         id : 2,
-        value : 'joueur',
-        label : "Joueur "
+        value : 'utilisateur',
+        label : "utilisateur "
     },
 ]
 

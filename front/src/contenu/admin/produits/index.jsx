@@ -12,11 +12,11 @@ function Produits(props) {
   if(!props.user) return <Navigate to = "/" />
 
 
-  if (Array.isArray(props.user) && props.user[0]?.fonction == 'joueur') {
+  if (Array.isArray(props.user) && props.user[0]?.fonction == 'utilisateur') {
     return <Navigate to="/" />;
   }
   
-  if (props.user?.fonction == 'joueur') {
+  if (props.user?.fonction == 'utilisateur') {
     return <Navigate to="/" />;
   }
   

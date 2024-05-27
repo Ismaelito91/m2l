@@ -17,7 +17,7 @@ dotenv.config();
 // Define the storage for the uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const destinationDir = `public/images/produits`;
+    const destinationDir = `.. public/images/produits`;
     // Check if the destination directory exists, if not, create it
     console.log("🚀 ~ destinationDir:", destinationDir)
     if (!fs.existsSync(destinationDir)) {
