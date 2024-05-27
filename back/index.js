@@ -38,6 +38,7 @@ app.use("/api/commandes", commandeRoutes);
 
 app.use("/api/articles", articleRoutes);
 
+app.use('/public', express.static('public'));
 
 // Démarrage du serveur
 const PORT = process.env.PORT || 3000;
