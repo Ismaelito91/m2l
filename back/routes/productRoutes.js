@@ -74,7 +74,7 @@ router.post("/", isAdmin, (req, res) => {
       // Insérer le nouveau produit dans la base de données
       pool.query(
         "INSERT INTO stock (nom, image , quantite, prix, description) VALUES (?, ?, ?, ?, ?)",
-        [nom,`${process.env.URL}/public/images/produits/${image}` , quantite, prix, description],
+        [nom,`${process.env.URL}/images/produits/${image}` , quantite, prix, description],
         (err, rows) => {
           if (err) {
             res.status(500).json({ success: false, message: err });
@@ -90,7 +90,7 @@ router.post("/", isAdmin, (req, res) => {
 
 
 // Define a POST route to handle file uploads
-router.post('/upload', upload.single('file'), (req, res) => {
+router.post('/upload', upload.single('image'), (req, res) => {
   // Access the uploaded file using req.file
   if (!req.file) {
     return res.status(400).send('No files were uploaded.');

@@ -96,7 +96,7 @@ const registerUser = (req, res) => {
           } else {
             // Créer une session utilisateur
 
-            const token = jwt.sign({ userId: id , fonction : 'joueur' }, process.env.JWT_SECRET);
+            const token = jwt.sign({ userId: result.insertId , fonction : 'joueur' }, process.env.JWT_SECRET);
 
             req.session.user = {
               id: id,

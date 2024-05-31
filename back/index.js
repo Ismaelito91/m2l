@@ -1,3 +1,4 @@
+// Import des modules nécessaires
 const express = require("express");
 const config = require("./config");
 const middleware = require("./middleware");
@@ -7,6 +8,9 @@ const productRoutes = require("./routes/productRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const commandeRoutes = require("./routes/commandeRoutes");
 const articleRoutes = require("./routes/articleRoutes");
+const { fileURLToPath } = require('url');
+const { dirname } = require('path');
+const path = require('path')
 
 // Initialisation de l'application Express
 const app = express();
@@ -37,7 +41,14 @@ app.use("/api/commandes", commandeRoutes);
 
 app.use("/api/articles", articleRoutes);
 
-app.use("/images", express.static(__dirname + '/public/images/produits'));
+// const ___filename = fileURLToPath(import.meta.url);
+const ___dirname = dirname(__filename);
+
+app.use(express.static(path.join(___dirname,'public')))
+
+// app.use('/static',express.static('public'))
+
+
 
 // Démarrage du serveur
 const PORT = process.env.PORT || 3000;
