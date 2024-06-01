@@ -6,11 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://192.168.1.29:3000',
+      '/api': 'http://192.168.1.27:3000',
     },
   },
   resolve: {
     mainFields: [],
   },
 })
-
