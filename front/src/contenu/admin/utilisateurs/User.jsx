@@ -167,7 +167,7 @@ export default function User( { id, nom , prenom , email , fonction , setUsers})
             </select>
           </div>
           
-          <button onClick={onEdit} type="submit" className="btn btn-primary">Changer Maintenat</button>
+          <button onClick={onEdit} type="submit" className="btn btn-primary">Changer Maintenant</button>
         </form>
       </Modal>
     </tr>

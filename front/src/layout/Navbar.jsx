@@ -75,6 +75,7 @@ function Navbar(props) {
         localStorage.setItem("token", res.data.token);
         props.setUser(res.data.user);
             setOpenRegister(false);
+        
 
         // api.getUser(res.data.token).then((res) => {
         //   if (res.data.success) {
@@ -132,13 +133,6 @@ function Navbar(props) {
                         Boutique
                       </button>
                     </NavLink>
-                    <NavLink to="/matchs">
-                      <button className="btn">
-                        <i className="bi bi-calendar-fill"></i>
-                        Matchs
-                      </button>
-                    </NavLink>
-                  
                   </>
                 ) : 
                 <>

@@ -3,7 +3,6 @@ const express = require("express");
 const uuid = require("uuid");
 const jwt = require("jsonwebtoken");
 
-
 const configureApp = require('../config.js');
 const pool = configureApp(express());
 
@@ -94,18 +93,7 @@ const registerUser = (req, res) => {
           if (err) {
             res.status(500).json({ success: false, message: err });
           } else {
-            // Créer une session utilisateur
-
-            const token = jwt.sign({ userId: result.insertId , fonction : 'joueur' }, process.env.JWT_SECRET);
-
-            req.session.user = {
-              id: id,
-              nom: nom,
-              prenom: prenom,
-              email: email,
-              fonction: "joueur",
-            };
-            res.status(201).json({ success: true, user : req.session.user, message: "Utilisateur enregistré avec succès" , token });
+            res.status(201).json({ success: true, message: "Utilisateur enregistré avec succès. Veuillez vous connecter." });
           }
         }
       );

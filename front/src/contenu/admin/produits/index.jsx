@@ -370,11 +370,11 @@ function Produits(props) {
             <input id="quantite" min={0} {...register("quantite", { required: true })} type="number" placeholder="Entrez la quantite" className="form-control" />
           </div>
           
-          <button type="submit" className="btn btn-primary">Connexion</button>
+          <button type="submit" className="btn btn-primary">Ajout du produit</button>
         </form>
       </Modal>
     </>
-  );
+  );      
 }
 
 export default Produits;

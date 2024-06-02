@@ -200,18 +200,7 @@ function Boutique(props) {
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
             />
-            <select
-              className="custom-select mr-sm-2 form-control"
-              value={filterSelection}
-              onChange={(e) => setFilterSelection(e.target.value)}
-            >
-              <option value="all" selected>
-                Choose...
-              </option>
-              <option value="maillot">Maillots</option>
-              <option value="équipement">Équipements</option>
-              <option value="foot">Football</option>
-            </select>
+         
           </div>
         </form>
       </div>
