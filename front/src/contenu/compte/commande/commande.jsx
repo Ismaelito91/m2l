@@ -4,9 +4,8 @@ import "./commande.css";
 
 const CommandePage = () => {
   const [commandes, setCommandes] = useState([]);
-
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const token = localStorage.getItem("token");
-
 
   useEffect(() => {
     const fetchCommandes = () => {
@@ -23,14 +22,28 @@ const CommandePage = () => {
     };
 
     fetchCommandes();
+  }, [token]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
   }, []);
-  
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  };
+
   return (
     <div>
+      <p className="p-2">Heure actuelle : <span className="fw-bold">{currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}</span></p>
       {commandes &&
         commandes.map((commande, index) => (
           <div className="cont" key={index}>
-            <p className="p-2">Commande effectuée le : <span className="fw-bold">{commande.date}</span></p>
+            <p className="p-2">Commande effectuée le : <span className="fw-bold">{formatDate(commande.date)}</span></p>
             <table className="table rounded-4 m-0">
               <thead>
                 <tr>
@@ -40,8 +53,8 @@ const CommandePage = () => {
                 </tr>
               </thead>
               <tbody>
-                {commande.produits.map((produit, index) => (
-                  <tr key={index}>
+                {commande.produits.map((produit, produitIndex) => (
+                  <tr key={produitIndex}>
                     <td><img src={produit.image} alt="" /> {produit.nom}</td>
                     <td>{produit.quantity}</td>
                     <td>{produit.prix} €</td>
