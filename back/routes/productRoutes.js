@@ -40,7 +40,7 @@ router.get("/", (req, res) => {
     if (err) {
       res.status(500).json({ error: err });
     } else {
-      res.status(200).json(rows.slice(0, 20));
+      res.status(200).json(rows);
     }
   });
 });

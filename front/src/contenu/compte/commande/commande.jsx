@@ -4,7 +4,6 @@ import "./commande.css";
 
 const CommandePage = () => {
   const [commandes, setCommandes] = useState([]);
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -24,14 +23,6 @@ const CommandePage = () => {
     fetchCommandes();
   }, [token]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentDateTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -39,7 +30,6 @@ const CommandePage = () => {
 
   return (
     <div>
-      <p className="p-2">Heure actuelle : <span className="fw-bold">{currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}</span></p>
       {commandes &&
         commandes.map((commande, index) => (
           <div className="cont" key={index}>
